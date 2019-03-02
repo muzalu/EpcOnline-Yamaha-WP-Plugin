@@ -1,0 +1,180 @@
+<?php
+
+namespace Epconline\YamahaOemPartsLookup;
+    /**
+     * Created by JetBrains PhpStorm.
+     * User: Russell Wyatt
+     * Date: 15/05/16
+     * Time: 11:15 AM
+     * To change this template use File | Settings | File Templates.
+     */
+
+
+class YamahaOemPartsLookupManagement
+
+{
+    var $pluginPath;
+    var $pluginFile;
+    var $tableName;
+    var $numActions;
+
+    function __construct()
+    {
+        //echo "Initialising OemPartsLookupManagement Object<br/>";
+        global $wpdb;
+        if( !function_exists('get_option') )
+        {
+            require_once('../../../wp-config.php');
+        }
+
+        $this->pluginPath = get_option('siteurl') . '/wp-content/plugins/yamaha-oem-parts-lookup/';
+        $this->pluginFile = $this->pluginPath . 'yamaha-oem-parts-lookup.php';
+    }
+
+    function ajaxDelete()
+    {
+        global $wpdb;
+
+//TODO: Review, probably don't need this
+
+
+        exit();
+    }
+
+    function displayManagementPage()
+    {
+        global $wpdb;
+        echo "\t\t<div class=\"wrap\">\n";
+        echo "\t\t</div>\n";
+    }
+
+    function getProductCategories()
+    {
+        $taxonomy     = 'product_cat';
+        $orderby      = 'name';
+        $show_count   = 0;      // 1 for yes, 0 for no
+        $pad_counts   = 0;      // 1 for yes, 0 for no
+        $hierarchical = 1;      // 1 for yes, 0 for no
+        $title        = '';
+        $empty        = 0;
+
+        $args = array(
+            'taxonomy'     => $taxonomy,
+            'orderby'      => $orderby,
+            'show_count'   => $show_count,
+            'pad_counts'   => $pad_counts,
+            'hierarchical' => $hierarchical,
+            'title_li'     => $title,
+            'hide_empty'   => $empty
+        );
+        $all_categories = get_categories( $args );
+        foreach ($all_categories as $cat) {
+            if($cat->category_parent == 0) {
+                $category_id = $cat->term_id;
+                echo '<option value="'. $category_id.'">'. $cat->name .'</option>';
+
+                $args2 = array(
+                    'taxonomy'     => $taxonomy,
+                    'child_of'     => 0,
+                    'parent'       => $category_id,
+                    'orderby'      => $orderby,
+                    'show_count'   => $show_count,
+                    'pad_counts'   => $pad_counts,
+                    'hierarchical' => $hierarchical,
+                    'title_li'     => $title,
+                    'hide_empty'   => $empty
+                );
+                $sub_cats = get_categories( $args2 );
+                if($sub_cats) {
+                    foreach($sub_cats as $sub_category) {
+                        echo  $sub_category->name ;
+                    }
+                }
+            }
+        }
+    }
+
+    function displayOptionsPage()
+    {
+        if($_POST['action'] == 'update'){
+            update_option('yamaha_dealer_id', $_POST['yamaha_dealer_id'] );
+            update_option('yamaha_products', $_POST['yamaha_products'] );
+            update_option('yamaha_wc_category', $_POST['yamaha_wc_category']);
+            update_option('yamaha_margin_ma', $_POST['yamaha_margin_ma']);
+            update_option('yamaha_margin_mb', $_POST['yamaha_margin_mb']);
+            ?><div class="updated"><p><strong><?php _e('Options saved.', 'eg_trans_domain' ); ?></strong></p></div><?php
+        }
+        ?>
+
+        <div class="wrap">
+            <h2>Yamaha OEM Parts Lookup Options</h2>
+
+            <form method="post">
+                <?php wp_nonce_field('yamaha-nonce'); ?>
+                <table class="form-table">
+                    <tr valign="top">
+                        <th scope="row">Dealer Id</th>
+                        <td><input type="text" name="yamaha_dealer_id" value="<?php echo get_option('yamaha_dealer_id'); ?>" /></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Products Selected</th>
+                        <td><input type="text" name="yamaha_products" value="<?php echo get_option('yamaha_products'); ?>" /></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">WooCommerce Category</th>
+                        <td>
+                            <select name="yamaha_wc_category">
+                                <option value="-1">Please select...</option>
+                            <?php $this->getProductCategories(); ?>
+                            </select>
+<!--                            <input type="number" name="yamaha_wc_category" value="--><?php //echo get_option('yamaha_wc_category'); ?><!--" />-->
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Margin for Motorcycle Parts</th>
+                        <td>
+                            <input type="number" name="yamaha_margin_mb" value="<?php echo get_option('yamaha_margin_mb'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Margin for Marine</th>
+                        <td>
+                            <input type="number" name="yamaha_margin_ma" value="<?php echo get_option('yamaha_margin_ma'); ?>" />
+                        </td>
+                    </tr>
+                </table>
+
+                <input type="hidden" name="action" value="update" />
+                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma" />
+                <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+            </form>
+        </div>
+    <?php
+    }
+
+    function displayWidgetControl()
+    {
+        $options = get_option('widgetYamahaOemPartsLookup');
+
+        if ( !is_array($options) ){
+            $options = array();
+            $options['title'] = 'Yamaha OEM Parts Lookup';
+        }
+
+        if ( $_POST['oempartslookup-submit'] && check_admin_referer('yamaha-nonce')) {
+
+            //TODO: Look at this
+            print_r($options);
+       //     $options['title'] = strip_tags(stripslashes($_POST['yamahaoempartslookup-title']));
+            update_option('widgetYamahaOemPartsLookup', $options);
+        }
+
+    //    $title = htmlspecialchars($options['title'], ENT_QUOTES);
+
+      //  echo '<p><label for="actionfeed-title">Title: <input style="width: 200px;" id="statecutsstats-title" name="statecutsstats-title" type="text" value="'.$title.'" /></label></p>';
+        echo '<input type="hidden" id="oempartslookup-submit" name="oempartslookup-submit" value="1" />';
+        wp_nonce_field('yamaha-nonce');
+
+    }
+}
+
