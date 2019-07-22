@@ -3,7 +3,7 @@
  * This sample code is supplied as is to give basic functionality
  * of an online parts browser including a hotspotted parts diagram
  * 
- * Copyright (C) 2018 by K & K Computech
+ * Copyright (C) 2019 by K & K Computech
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -409,7 +409,7 @@ function init() {
                     }
 
                     $('<tr id="part_' + item.PartID + '" class="partrow"></tr>')
-                        .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>'+ item.Model+'</td><td>'+ item.AssemblyName+'</td><td>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox"  value="1"/></td><td>' + itemPrice + '</td>')
+                        .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>'+ item.Model+'</td><td>'+ item.AssemblyName+'</td><td>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td><td class="text remarkCol">' + item.Remark + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox"  value="1"/></td><td>' + itemPrice + '</td>')
                         .append(clm)
                         .attr('data-partid', item.PartID)
                         .attr('data-partno', itemPartID)
@@ -419,6 +419,7 @@ function init() {
                         .attr('data-refno', item.RefNo)
                         .attr('data-sspartno', item.SsPartNo)
                         .attr('data-descrp', item.Description)
+                        .attr('data-remark', item.Remark)
                         .attr('data-notforsale', item.Discontinued)
                         .attr('data-weight', item.Weight)
                         .attr('data-volume', item.Volume)
@@ -520,7 +521,7 @@ function showInfoPopup(partdata) {
     var hotspotPosY = ((partdata.RefY + _offsetY) * (1 / _scalefactor)) + canvasMinY;
     $('#status').html('Got part ' + partdata.RefNo);
     $('<div class="partinfopanel"></div>')
-        .html('<h4>' + partdata.PartNo + '</h4><p>' + partdata.Description + '</p>')
+        .html('<h4>' + partdata.PartNo + '</h4><p>' + partdata.Description + '</p><p>'+partdata.Remark+'</p>')
         .appendTo('body')
         .css('top', (hotspotPosY + 20) + 'px')
         .css('left', (hotspotPosX + 20) + 'px')
@@ -832,6 +833,7 @@ function getPartsForAssembly(productId, assemblyId) {
                         .attr('data-refno', item.RefNo)
                         //.attr('data-sspartno', item.SsPartNo)
                         .attr('data-descrp', item.Description)
+                        .attr('data-remark', item.Remark)
                         .attr('data-notforsale', item.Discontinued)
                         .attr('data-weight', item.Weight)
                         .attr('data-volume', item.Volume)
