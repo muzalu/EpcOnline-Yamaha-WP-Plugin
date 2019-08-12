@@ -315,7 +315,7 @@ function init() {
         var detail=jQuery(this).parent().parent().attr('data-descrp');
         var listprice=jQuery(this).parent().parent().attr('data-price');
         var title=partinfo+'-'+detail;
-        var price = (listprice).toFixed(2);
+        var price = parseFloat(listprice).toFixed(2);
 
         //show the loading icon, hide button.
         var button_id = '#btnAdd_'+partid;
