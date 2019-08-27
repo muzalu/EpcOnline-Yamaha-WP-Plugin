@@ -6,7 +6,7 @@ namespace Epconline\YamahaOemPartsLookup;
 Plugin Name: Yamaha OEM Parts Lookup
 Plugin URI: http://epconline.com.au/Yamaha_OEM_Parts_Lookup
 Description: Display Yamaha OEM Parts Lookup
-Version: 1.6
+Version: 1.61
 Author: Russell Wyatt
 Author URI: http://epconline.com.au
 
@@ -64,13 +64,13 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
 
         function script_enqueuer()
         {
-            wp_deregister_script('modernizr');
-            wp_register_script( 'modernizr', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/libs/modernizr-1.7.min.js', false, 'null', false);
-            wp_enqueue_script( 'modernizr');
-
-            wp_deregister_script( 'jquery' );
-            wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', false, '1.10.2', false);
-            wp_enqueue_script( 'jquery');
+//            wp_deregister_script('modernizr');
+//            wp_register_script( 'modernizr', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/libs/modernizr-1.7.min.js', false, 'null', false);
+//            wp_enqueue_script( 'modernizr');
+//
+//            wp_deregister_script( 'jquery' );
+//            wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', false, '1.10.2', false);
+//            wp_enqueue_script( 'jquery');
 
             wp_deregister_script( 'cookies' );
             wp_register_script( 'cookies', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/libs/jquery.cookies.2.2.0.min.js', false, '2.2.0', false);
