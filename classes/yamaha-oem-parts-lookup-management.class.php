@@ -102,6 +102,10 @@ class YamahaOemPartsLookupManagement
             update_option('yamaha_wc_category', $_POST['yamaha_wc_category']);
             update_option('yamaha_margin_ma', $_POST['yamaha_margin_ma']);
             update_option('yamaha_margin_mb', $_POST['yamaha_margin_mb']);
+            update_option('text_color', $_POST['text_color']);
+            update_option('text_color_highlight', $_POST['text_color_highlight']);
+            update_option('background_color', $_POST['background_color']);
+            update_option('background_color_highlight', $_POST['background_color_highlight']);
             ?><div class="updated"><p><strong><?php _e('Options saved.', 'eg_trans_domain' ); ?></strong></p></div><?php
         }
         ?>
@@ -140,6 +144,30 @@ class YamahaOemPartsLookupManagement
                         <th scope="row">Margin for Marine</th>
                         <td>
                             <input type="number" name="yamaha_margin_ma" value="<?php echo get_option('yamaha_margin_ma'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Text Colour</th>
+                        <td>
+                            <input type="text" name="text_color" value="<?php echo get_option('text_color'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Text Colour Highlight</th>
+                        <td>
+                            <input type="text" name="text_color_highlight" value="<?php echo get_option('text_color_highlight'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Background Colour</th>
+                        <td>
+                            <input type="text" name="background_color" value="<?php echo get_option('background_color'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Background Colour Highlight</th>
+                        <td>
+                            <input type="text" name="background_color_highlight" value="<?php echo get_option('background_color_highlight'); ?>" />
                         </td>
                     </tr>
                 </table>

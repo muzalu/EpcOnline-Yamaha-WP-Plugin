@@ -48,6 +48,11 @@ var _centreY = _canvasHeight / 2;
 
 var _hotspots = Array();
 
+var _text_color = '#121212';
+var _text_color_highlight = '#dadada';
+var _background_color = '#d2160c';
+var _background_color_highlight = 'D28474';
+
 $(document).ready(function () {
     _yourdomain = myAjax.homeurl;
     init();
@@ -89,6 +94,12 @@ function init() {
 
     var setting_ma = myAjax.epcsetting_ma;
     var setting_mb = myAjax.epcsetting_mb;
+
+    // text colours
+    _text_color = myAjax.text_color;
+    _text_color_highlight = myAjax.text_color_highlight;
+    _background_color = myAjax.background_color;
+    _background_color_highlight = myAjax.background_color_highlight;
 
     ConfiguredProductTypes += '';
     var arrCfg = ConfiguredProductTypes.split(",");
@@ -282,9 +293,13 @@ function init() {
         // $('#status').html("PartID : " + partid);
         // hilight this row
 
-        $(this).css('background-color', '#fff');
+        $(this).css('background-color', _background_color_highlight);
+        $(this).css('color', _text_color_highlight);
+
     }).on('mouseout', 'tr.partrow', function () {
-            $(this).css('background-color', 'transparent');
+            $(this).css('background-color', _background_color);
+            $(this).css('color', _text_color);
+
         });
     $("#zoomIn").click(function () {
         zoomIn();
@@ -408,7 +423,7 @@ function init() {
                         clm = '<td><a href="contact_store.php?desc=' + item.Description + '&product_id=' + item.PartID + ' " class="contactstore" >Contact Store</a></td>';
                     }
 
-                    $('<tr id="part_' + item.PartID + '" class="partrow"></tr>')
+                    $('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+'; color: '+ _text_color +'"></tr>')
                         .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>'+ item.Model+'</td><td>'+ item.AssemblyName+'</td><td>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td><td class="text remarkCol">' + item.Remark + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox"  value="1"/></td><td>' + itemPrice + '</td>')
                         .append(clm)
                         .attr('data-partid', item.PartID)
@@ -822,7 +837,7 @@ function getPartsForAssembly(productId, assemblyId) {
 					}
 
 						n = "$";
-                    $('<tr id="part_' + item.PartID + '" class="partrow"></tr>')
+                    $('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+ '; color: '+ _text_color +'"></tr>')
                         .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox ' + class_Partnotforsale + '"  value="1"/></td><td><span class="' + class_Partnotforsale + '">' + format2(itemPrice*1.1, "$") + '</span></td>')
                         .append(clm)
                         .attr('data-partid', item.PartID)
@@ -892,6 +907,9 @@ function getAssemblyImage(assemblyId) {
                 _offsetX, _offsetY = 0;
                 gImage.onload = function () {
                     $('#status').html('Image Loaded');
+                    // calculate zoom factor to fit image inside the canvas
+                    _scalefactor = gImage.width / gCanvas.width;
+                    _scalefactor *= 2;
                     paint();
                 }
 
