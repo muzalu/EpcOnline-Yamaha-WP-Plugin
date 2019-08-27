@@ -53,19 +53,19 @@ var _text_color_highlight = '#dadada';
 var _background_color = '#d2160c';
 var _background_color_highlight = 'D28474';
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
     _yourdomain = myAjax.homeurl;
     init();
     init_mouse();
 });
 
-$(document).ajaxStart(function() {
+jQuery(document).ajaxStart(function() {
 
-    $('#loading-image_ajax').show(); // show the gif image when ajax starts
+    jQuery('#loading-image_ajax').show(); // show the gif image when ajax starts
 
 }).ajaxStop(function() {
 
-    $('#loading-image_ajax').hide(); // hide the gif image when ajax completes
+    jQuery('#loading-image_ajax').hide(); // hide the gif image when ajax completes
 
 });
 
@@ -87,7 +87,7 @@ function init() {
 
     // hide the parts list
 
-    //$('#PartsListContainer').hide();
+    //jQuery('#PartsListContainer').hide();
 
     DealerID = myAjax.accesskey;
     var ConfiguredProductTypes =  myAjax.producttypes;
@@ -104,35 +104,35 @@ function init() {
     ConfiguredProductTypes += '';
     var arrCfg = ConfiguredProductTypes.split(",");
     if (arrCfg.length > 1) {
-        $('#yamaha-oem-filterpanel #TypeSelect option').remove();
+        jQuery('#yamaha-oem-filterpanel #TypeSelect option').remove();
 
-        $('<option value="-1">Please select a Type</option>')
+        jQuery('<option value="-1">Please select a Type</option>')
 
             .appendTo('#yamaha-oem-filterpanel #TypeSelect');
 
         if (contains(arrCfg, "MA")) {
-            $('<option value="MA">Marine</option>')
+            jQuery('<option value="MA">Marine</option>')
                 .appendTo('#yamaha-oem-filterpanel #TypeSelect');
         }
 
         if (contains(arrCfg, "MB")) {
-            $('<option value="MB">Motorcycle</option>')
+            jQuery('<option value="MB">Motorcycle</option>')
                 .appendTo('#yamaha-oem-filterpanel #TypeSelect');
         }
 
         if (contains(arrCfg, "WV")) {
-            $('<option value="WV">Water Vehicles</option>')
+            jQuery('<option value="WV">Water Vehicles</option>')
                 .appendTo('#yamaha-oem-filterpanel #TypeSelect');
         }
     }
     else {
-        $('#yamaha-oem-filterpanel #TypeSelect').remove();
+        jQuery('#yamaha-oem-filterpanel #TypeSelect').remove();
 
-        $('<input id="TypeSelect" type="hidden" />')
+        jQuery('<input id="TypeSelect" type="hidden" />')
             .val(arrCfg[0])
             .appendTo('#yamaha-oem-filterpanel #TypeSelection');
         var selectedType = arrCfg[0];
-        $('#yamaha-oem-filterpanel #TypeSelect').hide();
+        jQuery('#yamaha-oem-filterpanel #TypeSelect').hide();
 
         switch(selectedType) {
             case 'MA':
@@ -147,13 +147,13 @@ function init() {
         }
 
         if (selectedType == 'MA') {
-            $('#yamaha-oem-filterpanel #YearSelection').hide();
+            jQuery('#yamaha-oem-filterpanel #YearSelection').hide();
             getModels(selectedType);
         } else {
             getYears(selectedType);
         }
     }
-    $('#status').hide();
+    jQuery('#status').hide();
 
     _scalefactor = 2;
 
@@ -161,8 +161,8 @@ function init() {
 
     // handle click from Type Selection
 
-    $('#yamaha-oem-filterpanel #TypeSelect').change(function () {
-        var selectedType = $(this).val();
+    jQuery('#yamaha-oem-filterpanel #TypeSelect').change(function () {
+        var selectedType = jQuery(this).val();
 
         switch(selectedType) {
             case 'MA':
@@ -178,23 +178,23 @@ function init() {
 
         //document.getElementById('wrapper').style.display='block';
         if (selectedType != "MA") {
-            $('#yamaha-oem-filterpanel #YearSelection').show();
+            jQuery('#yamaha-oem-filterpanel #YearSelection').show();
             getYears(selectedType);
         } else {
-            $('#yamaha-oem-filterpanel #YearSelection').hide();
+            jQuery('#yamaha-oem-filterpanel #YearSelection').hide();
             getModels(selectedType);
         }
     });
     var leftButtonDown = false;
-    $("#imageCanvas").mousedown(function (e) {
+    jQuery("#imageCanvas").mousedown(function (e) {
         // Left mouse button was pressed, set flag
         if (e.which === 1) leftButtonDown = true;
     });
-    $("#imageCanvas").mouseup(function (e) {
+    jQuery("#imageCanvas").mouseup(function (e) {
         // Left mouse button was released, clear flag
         if (e.which === 1) leftButtonDown = false;
     });
-    $('#imageCanvas').mousedown(function (e) {
+    jQuery('#imageCanvas').mousedown(function (e) {
         _mouseDownX = mousePosX(e);
         _mouseDownY = mousePosY(e);
 
@@ -204,19 +204,19 @@ function init() {
         // calculate position on image
          _imagePosX = _mouseMoveX - _offsetX;
        _imagePosY = _mouseMoveY - _offsetY;
-        $('#status').html('_mouseDownX:' + _mouseDownX + ', _mouseDownY:' + _mouseDownY);
+        jQuery('#status').html('_mouseDownX:' + _mouseDownX + ', _mouseDownY:' + _mouseDownY);
     });
 
-    $('#imageCanvas').mouseover(function (e) {
-        $('#imageCanvas').css('cursor', 'move');
+    jQuery('#imageCanvas').mouseover(function (e) {
+        jQuery('#imageCanvas').css('cursor', 'move');
     }).mouseout(function (e) {
-        $('#imageCanvas').css('cursor', 'default');
+        jQuery('#imageCanvas').css('cursor', 'default');
     });
 
     function tweakMouseMoveEvent(e) {
         // Check from jQuery UI for IE versions < 9
         //
-        //        if ($.browser.msie && !(document.documentMode >= 9) && !event.button) {
+        //        if (jQuery.browser.msie && !(document.documentMode >= 9) && !event.button) {
         //
         //           // leftButtonDown = false;
         //
@@ -227,7 +227,7 @@ function init() {
         if (e.which === 1 && !leftButtonDown) e.which = 0;
     }
 
-    $('#imageCanvas').mousemove(function (e) {
+    jQuery('#imageCanvas').mousemove(function (e) {
         // Call the tweak function to check for LMB and set correct e.which
         tweakMouseMoveEvent(e);
         _mouseX = mousePosX(e);
@@ -242,7 +242,7 @@ function init() {
             _offsetX = newOffsetX;
             _offsetY = newOffsetY;
 
-            $('#status').html("'Left Mouse Down- _offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
+            jQuery('#status').html("'Left Mouse Down- _offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
 
             paint();
         }
@@ -250,7 +250,7 @@ function init() {
             // calculate position on image
             _imagePosX = _mouseX * _scalefactor - _offsetX;
             _imagePosY = _mouseY * _scalefactor - _offsetY;
-            $('#status').html(_mouseX + ', ' + _mouseY);
+            jQuery('#status').html(_mouseX + ', ' + _mouseY);
 
             // perform hit test
             var arLen = _hotspots.length;
@@ -261,7 +261,7 @@ function init() {
                     && ((_hotspots[i].RefY >= _imagePosY - _hitTolerance) && (_hotspots[i].RefY <= _imagePosY + _hitTolerance))) {
                     // popup part info
                     gotone = true;
-                    $('#imageCanvas').css('cursor', 'default');
+                    jQuery('#imageCanvas').css('cursor', 'default');
 
                     showInfoPopup(_hotspots[i]);
                     highlightPartRow(_hotspots[i]);
@@ -270,16 +270,16 @@ function init() {
             }
 
             if (gotone == false) {
-                $('#imageCanvas').css('cursor', 'move');
+                jQuery('#imageCanvas').css('cursor', 'move');
                 hideInfoPopup();
                 unhighlightPartRow();
             }
         }
     });
 
-    $(document).on('mouseover', 'tr.partrow', function () {
+    jQuery(document).on('mouseover', 'tr.partrow', function () {
         // get partid
-        var partid = $(this).parent().attr("data-partid");
+        var partid = jQuery(this).parent().attr("data-partid");
 
         // index into hotspots array
         var arrlen = _hotspots.length;
@@ -290,33 +290,33 @@ function init() {
                 break;
             }
         }
-        // $('#status').html("PartID : " + partid);
+        // jQuery('#status').html("PartID : " + partid);
         // hilight this row
 
-        $(this).css('background-color', _background_color_highlight);
-        $(this).css('color', _text_color_highlight);
+        jQuery(this).css('background-color', _background_color_highlight);
+        jQuery(this).css('color', _text_color_highlight);
 
     }).on('mouseout', 'tr.partrow', function () {
-            $(this).css('background-color', _background_color);
-            $(this).css('color', _text_color);
+            jQuery(this).css('background-color', _background_color);
+            jQuery(this).css('color', _text_color);
 
         });
-    $("#zoomIn").click(function () {
+    jQuery("#zoomIn").click(function () {
         zoomIn();
     });
-    $("#zoomOut").click(function () {
+    jQuery("#zoomOut").click(function () {
         zoomOut();
     });
 
-    $(document).on('change', 'input[type="text"].qtyTextbox', function () {
-        var newqty = $(this).val();
-        $(this).parent().parent().attr('data-orderqty', newqty);
+    jQuery(document).on('change', 'input[type="text"].qtyTextbox', function () {
+        var newqty = jQuery(this).val();
+        jQuery(this).parent().parent().attr('data-orderqty', newqty);
     });
     // This function handles the 'Add to cart' button
     // You can extend this to pass info to the shopping cart
-    $(document).on('click', 'input[type="button"].btnAddToCart', function (e) {
+    jQuery(document).on('click', 'input[type="button"].btnAddToCart', function (e) {
         e.preventDefault();
-        var $thisbutton = $(this);
+        var thisbutton = jQuery(this);
         var partid = jQuery(this).attr('data-partid');
         var partinfo = jQuery(this).parent().parent().attr('data-partno');
         var quantity = jQuery(this).parent().parent().attr('data-orderqty');
@@ -336,8 +336,8 @@ function init() {
         var button_id = '#btnAdd_'+partid;
         var loading_id = '#loadingAdd_'+partid;
         var success_id = '#successAdd_'+partid;
-        $(button_id).hide();
-        $(loading_id).show();
+        jQuery(button_id).hide();
+        jQuery(loading_id).show();
 
         javascript: jQuery.ajax({
             url: myAjax.ajaxurl,
@@ -362,41 +362,41 @@ function init() {
                } else {
     	            jQuery(".orb_custom").html(response);
                     // Trigger event so themes can refresh other areas.
-                    $( document.body ).trigger( 'added_to_cart', [ response.fragments, response.cart_hash, $thisbutton ] );
+                    jQuery( document.body ).trigger( 'added_to_cart', [ response.fragments, response.cart_hash, thisbutton ] );
 
-                    $(".widget_shopping_cart_content").empty();
-                    $(".widget_shopping_cart_content").append(response.fragments["div.widget_shopping_cart_content"]);
-                   // $(".widget_shopping_cart_content").hide();
+                    jQuery(".widget_shopping_cart_content").empty();
+                    jQuery(".widget_shopping_cart_content").append(response.fragments["div.widget_shopping_cart_content"]);
+                   // jQuery(".widget_shopping_cart_content").hide();
                     //show the button, hide loading icon.
-                    $(loading_id).hide();
-                    $(success_id).show();
+                    jQuery(loading_id).hide();
+                    jQuery(success_id).show();
 
                     setTimeout(function(){
-                        $(success_id).hide();
+                        jQuery(success_id).hide();
                     }, 3000);
 
                     setTimeout(function(){
 
-                        $(button_id).show();
+                        jQuery(button_id).show();
                     }, 3001);
                }
           }});
     });
 
-    $(document).on('keyup', '#PartNumber', function () {
-        if ($('#PartNumber').val().length < 8) {
-            $("#btnSearch").attr("disabled", "disabled");
+    jQuery(document).on('keyup', '#PartNumber', function () {
+        if (jQuery('#PartNumber').val().length < 8) {
+            jQuery("#btnSearch").attr("disabled", "disabled");
         } else {
-            $("#btnSearch").removeAttr("disabled");
+            jQuery("#btnSearch").removeAttr("disabled");
         }
     });
-    $(document).on('click', '#btnSearch', function () {
-        var searchString = $('#PartNumber').val();
-        $.getJSON(
+    jQuery(document).on('click', '#btnSearch', function () {
+        var searchString = jQuery('#PartNumber').val();
+        jQuery.getJSON(
             'https://' + _domain + '/Part/getAjaxPartSearch/' + searchString + '/' + DealerID + '?callback=?',
             function (data) {
-                $('#SearchPartsList tbody tr').remove();
-                $.each(data, function(i, item) {
+                jQuery('#SearchPartsList tbody tr').remove();
+                jQuery.each(data, function(i, item) {
                     var partId = item.PartID;
                     // put the item in the hotspot array
                     _hotspots.push(item);
@@ -423,7 +423,7 @@ function init() {
                         clm = '<td><a href="contact_store.php?desc=' + item.Description + '&product_id=' + item.PartID + ' " class="contactstore" >Contact Store</a></td>';
                     }
 
-                    $('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+'; color: '+ _text_color +'"></tr>')
+                    jQuery('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+'; color: '+ _text_color +'"></tr>')
                         .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>'+ item.Model+'</td><td>'+ item.AssemblyName+'</td><td>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td><td class="text remarkCol">' + item.Remark + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox"  value="1"/></td><td>' + itemPrice + '</td>')
                         .append(clm)
                         .attr('data-partid', item.PartID)
@@ -446,8 +446,8 @@ function init() {
                         .appendTo('#SearchPartsList tbody');
                 });
 
-                $('#SearchPartsList tr:odd').addClass('odd');
-                $('#PartSearchResultsContainer').fadeIn();
+                jQuery('#SearchPartsList tr:odd').addClass('odd');
+                jQuery('#PartSearchResultsContainer').fadeIn();
             });
     });
 
@@ -462,9 +462,9 @@ function init() {
 }
 
 function init_mouse() {
-    if ($('#imageCanvas').offset() != null) {
-        canvasMinX = $('#imageCanvas').offset().left;
-        canvasMinY = $('#imageCanvas').offset().top;
+    if (jQuery('#imageCanvas').offset() != null) {
+        canvasMinX = jQuery('#imageCanvas').offset().left;
+        canvasMinY = jQuery('#imageCanvas').offset().top;
     }
     _centreX = _canvasWidth / 2;
     _centreY = _canvasHeight / 2;
@@ -525,7 +525,7 @@ function focusHotspot(Xpos, Ypos) {
     _offsetX = -newOffsetX;
     _offsetY = -newOffsetY;
     //alert("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
-    $('#status').html("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
+    jQuery('#status').html("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
     paint();
 }
 
@@ -534,8 +534,8 @@ function showInfoPopup(partdata) {
     // first get relative to canvas
     var hotspotPosX = ((partdata.RefX + _offsetX) * (1 / _scalefactor)) + canvasMinX;
     var hotspotPosY = ((partdata.RefY + _offsetY) * (1 / _scalefactor)) + canvasMinY;
-    $('#status').html('Got part ' + partdata.RefNo);
-    $('<div class="partinfopanel"></div>')
+    jQuery('#status').html('Got part ' + partdata.RefNo);
+    jQuery('<div class="partinfopanel"></div>')
         .html('<h4>' + partdata.PartNo + '</h4><p>' + partdata.Description + '</p><p>'+partdata.Remark+'</p>')
         .appendTo('body')
         .css('top', (hotspotPosY + 20) + 'px')
@@ -544,51 +544,51 @@ function showInfoPopup(partdata) {
 }
 
 function hideInfoPopup() {
-    $('.partinfopanel').remove();
+    jQuery('.partinfopanel').remove();
 }
 
 function highlightPartRow(partdata) {
     //alert('hilight');
-    $('#part_' + partdata.PartID + ' td').addClass('hilight');
+    jQuery('#part_' + partdata.PartID + ' td').addClass('hilight');
 }
 
 function unhighlightPartRow() {
-    //$('.partrow td').css('background-color', 'transparent');
-    $('.partrow td').removeClass('hilight');
+    //jQuery('.partrow td').css('background-color', 'transparent');
+    jQuery('.partrow td').removeClass('hilight');
 }
 
 function zoomIn() {
     _scalefactor -= 0.5;
-    $('#status').html('Scale factor : ' + _scalefactor);
+    jQuery('#status').html('Scale factor : ' + _scalefactor);
     paint();
 }
 
 function zoomOut() {
     _scalefactor += 0.5;
-    $('#status').html('Scale factor : ' + _scalefactor);
+    jQuery('#status').html('Scale factor : ' + _scalefactor);
     paint();
 }
 
 function setTypeSelector(selType) {
-    $('select#yamaha-oem-filterpanel #TypeSelect')
+    jQuery('select#yamaha-oem-filterpanel #TypeSelect')
         .children()
         .attr('selected', function (i, selected) {
-            return $(this).val() == selType;
+            return jQuery(this).val() == selType;
         });
 }
 
 function getYears(type, selectedYear) {
     if (typeof type != 'undefined') {
-	    $.getJSON(
+	    jQuery.getJSON(
 	    'https://' + _domain + '/Products/Years/' + type + '/'+ DealerID + '?callback=?',
 	    function (data) {
 	        // first delete any content
-	        $('#yamaha-oem-filterpanel #YearSelect option').remove();
-	        $('#yamaha-oem-filterpanel #YearSelect')
+	        jQuery('#yamaha-oem-filterpanel #YearSelect option').remove();
+	        jQuery('#yamaha-oem-filterpanel #YearSelect')
 	            .unbind()
 	            .change(function () {
-	                var selectedType = $('#yamaha-oem-filterpanel #TypeSelect').val();
-	                var thisYear = $(this).val();
+	                var selectedType = jQuery('#yamaha-oem-filterpanel #TypeSelect').val();
+	                var thisYear = jQuery(this).val();
 	                if (selectedType == 'WV') {
                         getWaterVehiclesForYear(thisYear);
                     } else {
@@ -596,11 +596,11 @@ function getYears(type, selectedYear) {
                     }
 	                return false;
 	            });
-	        $('<option value="-1">Please select a year</option>')
+	        jQuery('<option value="-1">Please select a year</option>')
 	            .appendTo('#yamaha-oem-filterpanel #YearSelect')
 
-	        $.each(data, function (i, item) {
-	            $('<option id="ModelYear_' + item + '">' + item + '</option>')
+	        jQuery.each(data, function (i, item) {
+	            jQuery('<option id="ModelYear_' + item + '">' + item + '</option>')
 	            .attr('selected', item == selectedYear)
 	            .appendTo('#yamaha-oem-filterpanel #YearSelect')
 	        });
@@ -611,28 +611,28 @@ function getYears(type, selectedYear) {
 function getModels(type, selectedProductID) {
     type = type == 'MB' ? '0' : '1';
     if (typeof type != 'undefined') {
-        $.getJSON(
+        jQuery.getJSON(
         'https://' + _domain + '/Products/' + type + '/' + DealerID + '?callback=?',
         function (data) {
-            $('#yamaha-oem-filterpanel #ModelSelect option').remove();
-            $('#yamaha-oem-filterpanel #ModelSelect')
+            jQuery('#yamaha-oem-filterpanel #ModelSelect option').remove();
+            jQuery('#yamaha-oem-filterpanel #ModelSelect')
                 .unbind('change')
                 .change(function () {
                     // clear Assemblies droplist
-		    $('#yamaha-oem-filterpanel #ContentSelect option').remove();
-                    $('#yamaha-oem-filterpanel #AssemblySelect option').remove();
+		    jQuery('#yamaha-oem-filterpanel #ContentSelect option').remove();
+                    jQuery('#yamaha-oem-filterpanel #AssemblySelect option').remove();
 
-                    var productId = $(this).children(":selected").attr("data-prodid");
+                    var productId = jQuery(this).children(":selected").attr("data-prodid");
                     getContentForModel(productId);
                     // Jump to Assemblies page
                     return false;
                 });
-            $('<option value="-1">Please select a Model</option>')
+            jQuery('<option value="-1">Please select a Model</option>')
                 .appendTo('#yamaha-oem-filterpanel #ModelSelect');
 
-            $.each(data, function (i, item) {
+            jQuery.each(data, function (i, item) {
 
-                    $('<option id="model_' + item.ProductID + '">' + item.Model + ' (' + item.Year + ')</option>')
+                    jQuery('<option id="model_' + item.ProductID + '">' + item.Model + ' (' + item.Year + ')</option>')
                         .attr('data-prodid', item.ProductID)
                 .attr('selected', item.ProductID == selectedProductID)
                 .appendTo('#yamaha-oem-filterpanel #ModelSelect');
@@ -644,23 +644,23 @@ function getModels(type, selectedProductID) {
 function getModelsForYear(type, year, selectedProductID) {
     type = type == 'MB' ? '0' : '1';
     if ((typeof type != 'undefined') && (typeof year != 'undefined')) {
-    $.getJSON(
+    jQuery.getJSON(
     'https://' + _domain + '/Products/' + type + '/Year/' + year + '/' + DealerID + '?callback=?',
     function (data) {
-        $('#yamaha-oem-filterpanel #ModelSelect option').remove();
-        $('#yamaha-oem-filterpanel #ModelSelect')
+        jQuery('#yamaha-oem-filterpanel #ModelSelect option').remove();
+        jQuery('#yamaha-oem-filterpanel #ModelSelect')
             .unbind()
             .change(function () {
-                var productId = $(this).children(":selected").attr("data-prodid");
+                var productId = jQuery(this).children(":selected").attr("data-prodid");
                 getContentForModel(productId);
                 // Jump to Assemblies page
                 return false;
             });
-        $('<option value="-1">Please select a Model</option>')
+        jQuery('<option value="-1">Please select a Model</option>')
             .appendTo('#yamaha-oem-filterpanel #ModelSelect')
 
-        $.each(data, function (i, item) {
-            $('<option id="model_' + item.ProductID + '">' + item.Model + '</option>')
+        jQuery.each(data, function (i, item) {
+            jQuery('<option id="model_' + item.ProductID + '">' + item.Model + '</option>')
             .attr('data-prodid', item.ProductID)
             .attr('selected', item.ProductID == selectedProductID)
             .appendTo('#yamaha-oem-filterpanel #ModelSelect')
@@ -671,23 +671,23 @@ function getModelsForYear(type, year, selectedProductID) {
 
 function getWaterVehiclesForYear(year, selectedProductID) {
     if (typeof year != 'undefined') {
-        $.getJSON(
+        jQuery.getJSON(
             'https://' + _domain + '/WaterVehicles/Year/' + year + '/' + DealerID + '?callback=?',
             function (data) {
-                $('#yamaha-oem-filterpanel #ModelSelect option').remove();
-                $('#yamaha-oem-filterpanel #ModelSelect')
+                jQuery('#yamaha-oem-filterpanel #ModelSelect option').remove();
+                jQuery('#yamaha-oem-filterpanel #ModelSelect')
                     .unbind()
                     .change(function () {
-                        var productId = $(this).children(":selected").attr("data-prodid");
+                        var productId = jQuery(this).children(":selected").attr("data-prodid");
                         getContentForModel(productId);
                         // Jump to Assemblies page
                         return false;
                     });
-                $('<option value="-1">Please select a Model</option>')
+                jQuery('<option value="-1">Please select a Model</option>')
                     .appendTo('#yamaha-oem-filterpanel #ModelSelect')
 
-                $.each(data, function (i, item) {
-                    $('<option id="model_' + item.ProductID + '">' + item.Model + '</option>')
+                jQuery.each(data, function (i, item) {
+                    jQuery('<option id="model_' + item.ProductID + '">' + item.Model + '</option>')
                         .attr('data-prodid', item.ProductID)
                         .attr('selected', item.ProductID == selectedProductID)
                         .appendTo('#yamaha-oem-filterpanel #ModelSelect')
@@ -700,22 +700,22 @@ function getWaterVehiclesForYear(year, selectedProductID) {
 function getContentForModel(productId) {
 //    alert(productId);
     if (typeof productId != 'undefined')  {
-        $.getJSON(
+        jQuery.getJSON(
         'https://' + _domain + '/Content/Product/' + productId + '/' + DealerID + '?callback=?',
         function (data) {
-            $('#yamaha-oem-filterpanel #ContentSelect option').remove();
+            jQuery('#yamaha-oem-filterpanel #ContentSelect option').remove();
             //alert(data);
-            $('#yamaha-oem-filterpanel #ContentSelect')
+            jQuery('#yamaha-oem-filterpanel #ContentSelect')
                 .unbind()
                 .change(function () {
-                    var contentId = $(this).children(":selected").attr("data-contentid");
+                    var contentId = jQuery(this).children(":selected").attr("data-contentid");
                     getAssembliesForContent(productId, contentId);
                     return false;
                 });
-            $('<option value="-1">Please select...</option>')
+            jQuery('<option value="-1">Please select...</option>')
                 .appendTo('#yamaha-oem-filterpanel #ContentSelect')
-            $.each(data, function (i, item) {
-                $('<option id="content_' + item.ContentID + '">' + item.Title + '</option>')
+            jQuery.each(data, function (i, item) {
+                jQuery('<option id="content_' + item.ContentID + '">' + item.Title + '</option>')
                 .attr('data-contentid', item.ContentID)
                 .appendTo('#yamaha-oem-filterpanel #ContentSelect')
             });
@@ -726,25 +726,25 @@ function getContentForModel(productId) {
 function getAssembliesForContent(productId, contentId) {
     //alert('getting assemblies for content ' + contentId);
     if ((typeof productId != 'undefined') && (typeof contentId != 'undefined')) {
-        $.getJSON(
+        jQuery.getJSON(
         'https://' + _domain + '/Assembly/Content/' + contentId + '/' + DealerID + '?callback=?',
         function (data) {
             //alert(data);
-            $('#yamaha-oem-filterpanel #AssemblySelect option').remove();
-            $('#yamaha-oem-filterpanel #AssemblySelect')
+            jQuery('#yamaha-oem-filterpanel #AssemblySelect option').remove();
+            jQuery('#yamaha-oem-filterpanel #AssemblySelect')
                 .unbind()
                 .change(function () {
                     // use substring to remove 'assembly_'
-                    var assId = $(this).children(":selected").attr("data-assid");
+                    var assId = jQuery(this).children(":selected").attr("data-assid");
                     getAssemblyImage(assId);
                     getPartsForAssembly(productId, assId);
                     return false;
                 });
-            $('<option value="-1">Please select an assembly</option>')
+            jQuery('<option value="-1">Please select an assembly</option>')
                 .appendTo('#yamaha-oem-filterpanel #AssemblySelect')
 
-            $.each(data, function (i, item) {
-                $('<option id="assembly_' + item.AssemblyID + '">' + item.Title + '</option>')
+            jQuery.each(data, function (i, item) {
+                jQuery('<option id="assembly_' + item.AssemblyID + '">' + item.Title + '</option>')
                 .attr('data-assid', item.AssemblyID)
                 .appendTo('#yamaha-oem-filterpanel #AssemblySelect')
             });
@@ -754,31 +754,31 @@ function getAssembliesForContent(productId, contentId) {
 
 function getAssembliesForModel2(modelId, selectedAssemblyID) {
     if (typeof modelId != 'undefined') {
-        $.getJSON(
+        jQuery.getJSON(
             'https://' + _domain + '/Assembly/Model/' + modelId + '/' + DealerID + '?callback=?',
             function (data) {
-                $('#yamaha-oem-filterpanel #AssemblySelect option').remove();
-                $('#yamaha-oem-filterpanel #AssemblySelect')
+                jQuery('#yamaha-oem-filterpanel #AssemblySelect option').remove();
+                jQuery('#yamaha-oem-filterpanel #AssemblySelect')
                     .unbind('change')
                     .change(function () {
                         // clear Accessories droplist
-                        $('#AccessorySelect').val(-1);
+                        jQuery('#AccessorySelect').val(-1);
                         // clear AdrAssemblies droplist
-                        $('#AdrAssemblySelect').val(-1);
-                        var assId = $(this).children(":selected").attr("data-assid");
+                        jQuery('#AdrAssemblySelect').val(-1);
+                        var assId = jQuery(this).children(":selected").attr("data-assid");
                         getAssemblyImage(assId);
                         getPartsForAssembly(modelId, assId);
                         return false;
                     });
 
-                $('<option value="-1">Please select an assembly</option>')
+                jQuery('<option value="-1">Please select an assembly</option>')
 
                     .appendTo('#yamaha-oem-filterpanel #AssemblySelect');
 
 
 
-                $.each(data, function (i, item) {
-                    $('<option id="assembly_' + item.AssemblyID + '">' + item.AddressNo + ' - ' + item.Name + '</option>')
+                jQuery.each(data, function (i, item) {
+                    jQuery('<option id="assembly_' + item.AssemblyID + '">' + item.AddressNo + ' - ' + item.Name + '</option>')
                         .attr('data-assid', item.AssemblyID)
                         .attr('selected', item.AssemblyID == selectedAssemblyID)
                         .appendTo('#yamaha-oem-filterpanel #AssemblySelect')
@@ -790,13 +790,13 @@ function getAssembliesForModel2(modelId, selectedAssemblyID) {
 function getPartsForAssembly(productId, assemblyId) {
     //alert('getting parts for assembly ' + assemblyId);
     if ((typeof productId != 'undefined') && (typeof assemblyId != 'undefined')) {
-        $.getJSON(
+        jQuery.getJSON(
             'https://' + _domain + '/Part/Assembly/' + productId + '/' + assemblyId + '/' + DealerID + '?callback=?',
             function (data) {
-                $('#PartsList tbody tr').remove();
+                jQuery('#PartsList tbody tr').remove();
                 // clear hotspot array
                 _hotspots.length = 0;
-                $.each(data, function (i, item) {
+                jQuery.each(data, function (i, item) {
                     var partId = item.PartID;
                     // put the item in the hotspot array
                     _hotspots.push(item);
@@ -836,8 +836,8 @@ function getPartsForAssembly(productId, assemblyId) {
 						return currency + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 					}
 
-						n = "$";
-                    $('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+ '; color: '+ _text_color +'"></tr>')
+						n = "jQuery";
+                    jQuery('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+ '; color: '+ _text_color +'"></tr>')
                         .append('<td class="refCol"><input  id="chk_' + item.PartID + '" type="hidden"></input>' + item.RefNo + '</td><td class="text descCol">' + item.Description + '</td>' + PartNoCell + '<td class="numberCol">' + item.Quantity + '</td><td><input name="qty_' + item.PartID + '" id="qty_' + item.PartID + '" type="text" class="qtyTextbox ' + class_Partnotforsale + '"  value="1"/></td><td><span class="' + class_Partnotforsale + '">' + format2(itemPrice*1.1, "$") + '</span></td>')
                         .append(clm)
                         .attr('data-partid', item.PartID)
@@ -859,7 +859,7 @@ function getPartsForAssembly(productId, assemblyId) {
                         .attr('data-height', item.Height)
                         .appendTo('#PartsList tbody');
                 })
-                $('#PartsListContainer').fadeIn();
+                jQuery('#PartsListContainer').fadeIn();
             });
     }
 }
@@ -867,24 +867,24 @@ function getPartsForAssembly(productId, assemblyId) {
 
 function getModelImage(modelId) {
     if (typeof modelId != 'undefined') {
-        $.getJSON(
+        jQuery.getJSON(
             'https://' + _domain + '/Model/Image/' + modelId + '/' + DealerID + '?callback=?',
             function (data) {
-                $('div#yamaha-oem-imageWrap img').remove();
-                $('div#yamaha-oem-imageWrap .modelImageContainer').remove();
+                jQuery('div#yamaha-oem-imageWrap img').remove();
+                jQuery('div#yamaha-oem-imageWrap .modelImageContainer').remove();
 
                 if (data.length > 0) {
-                    $.each(data, function (i, item) {
+                    jQuery.each(data, function (i, item) {
                         var modelImage = new Image();
                         modelImage.src = 'https://' + _domain + '/Image/getImage/' + item.Key + '/type/' + item.Value;
-                        $('<img class="modelImage">')
+                        jQuery('<img class="modelImage">')
                             .attr('src', modelImage.src)
-                            .appendTo($('<div class="modelImageContainer"></div>')
-                                .appendTo($('div#yamaha-oem-imageWrap'))
+                            .appendTo(jQuery('<div class="modelImageContainer"></div>')
+                                .appendTo(jQuery('div#yamaha-oem-imageWrap'))
                             )
                             .hide()
                             .load(function () {
-                                $(this).fadeIn();
+                                jQuery(this).fadeIn();
                             });
                     });
                 }
@@ -895,10 +895,10 @@ function getModelImage(modelId) {
 
 function getAssemblyImage(assemblyId) {
     if (typeof assemblyId != 'undefined') {
-        $.getJSON(
+        jQuery.getJSON(
             'https://' + _domain + '/Assembly/Image/' + assemblyId + '/' + DealerID + '?callback=?',
             function (data) {
-                $('#status').html('Image Received');
+                jQuery('#status').html('Image Received');
                 if (document.getElementById('imageCanvas')) {
                     gCanvas = document.getElementById('imageCanvas');
                     gCanvas.width = gCanvas.width;
@@ -906,7 +906,7 @@ function getAssemblyImage(assemblyId) {
 
                 _offsetX, _offsetY = 0;
                 gImage.onload = function () {
-                    $('#status').html('Image Loaded');
+                    jQuery('#status').html('Image Loaded');
                     // calculate zoom factor to fit image inside the canvas
                     _scalefactor = gImage.width / gCanvas.width;
                     _scalefactor *= 2;
