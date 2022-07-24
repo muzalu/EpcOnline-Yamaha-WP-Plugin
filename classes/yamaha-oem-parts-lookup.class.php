@@ -175,6 +175,7 @@ class YamahaOemPartsLookup
     function yamaha_oem_ajax_add_to_cart_woo_callback() {
         ob_start();
         $post=get_page_by_title($_REQUEST[post_title], ARRAY_N, 'product' );
+        $price =  $_REQUEST[price];
 
         if(sizeof($post)==0) {
             $my_post = array(
@@ -190,10 +191,15 @@ class YamahaOemPartsLookup
             if ($wp_error != ''){
                 echo($wp_error);
             }
+
+
+
             if ( $product_ID ){
 //                echo "inserted post";
-                add_post_meta($product_ID, '_regular_price', $_REQUEST[price] );
-                add_post_meta($product_ID, '_price', $_REQUEST[price] );
+                update_post_meta( $product_ID, '_price', $price);
+                update_post_meta( $product_ID, '_regular_price', $price ); // Update regular price
+                wc_delete_product_transients( $product_ID ); // Update product cache
+
                 add_post_meta($product_ID, '_stock_status', 'instock' );
 
                 $term = get_term_by('name', 'Parts', 'product_cat');
@@ -202,10 +208,20 @@ class YamahaOemPartsLookup
             }
         } else {
             $product_ID=$post[0];
+            update_post_meta( $product_ID, '_price', $price);
+            update_post_meta( $product_ID, '_regular_price', $price ); // Update regular price
+            wc_delete_product_transients( $product_ID ); // Update product cache
+
+            add_post_meta($product_ID, '_stock_status', 'instock' );
+
+            $term = get_term_by('name', 'Parts', 'product_cat');
+            wp_set_object_terms($product_ID, $term->term_id, 'product_cat');
+            wp_set_object_terms($product_ID, array('Parts Shipping'), 'product_shipping_class');
+
         }
         //echo 'ProductID = ' . $product_ID;
-        if ( $product_ID ) {
 
+        if ( $product_ID ) {
             if (!empty(WC()->cart)) {
                 WC()->cart->add_to_cart($product_ID, $_REQUEST[quantity]);
 
