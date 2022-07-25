@@ -90,10 +90,15 @@ function init() {
     //jQuery('#PartsListContainer').hide();
 
     DealerID = myAjax.accesskey;
-    var ConfiguredProductTypes =  myAjax.producttypes;
+    // var ConfiguredProductTypes =  myAjax.producttypes;
+    //
+    // var setting_ma = myAjax.epcsetting_ma;
+    // var setting_mb = myAjax.epcsetting_mb;
 
-    var setting_ma = myAjax.epcsetting_ma;
-    var setting_mb = myAjax.epcsetting_mb;
+    var ConfiguredProductTypes =  myAjax.ypicproducttypes;
+
+    var setting_ma = myAjax.ypicsetting_ma;
+    var setting_mb = myAjax.ypicsetting_mb;
 
     // text colours
     _text_color = myAjax.text_color;

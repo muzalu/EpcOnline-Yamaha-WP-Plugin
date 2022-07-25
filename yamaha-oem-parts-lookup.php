@@ -4,11 +4,11 @@ namespace Epconline\YamahaOemPartsLookup;
 
 /**
 Plugin Name: Yamaha OEM Parts Lookup
-Plugin URI: http://epconline.com.au/Yamaha_OEM_Parts_Lookup
+Plugin URI: https://epconline.com.au/wp-plugins/Yamaha_OEM_Parts_Lookup
 Description: Display Yamaha OEM Parts Lookup
-Version: 1.61
+Version: 1.70
 Author: Russell Wyatt
-Author URI: http://epconline.com.au
+Author URI: https://epconline.com.au/
 
  */
 
@@ -86,9 +86,9 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
             wp_localize_script( 'yamaha-oem-parts-lookup', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
                 'homeurl' => home_url(),
                 'accesskey' => esc_attr($accessKey),
-                'producttypes' => esc_attr(get_option('yamaha_products')),
-                'epcsetting_ma' => esc_attr(get_option('yamaha_margin_ma')),
-                'epcsetting_mb' => esc_attr(get_option('yamaha_margin_mb')),
+                'ypicproducttypes' => esc_attr(get_option('yamaha_products')),
+                'ypicsetting_ma' => esc_attr(get_option('yamaha_margin_ma')),
+                'ypicsetting_mb' => esc_attr(get_option('yamaha_margin_mb')),
                 'text_color' => esc_attr(get_option('text_color')),
                 'text_color_highlight' => esc_attr(get_option('text_color_highlight')),
                 'background_color' => esc_attr(get_option('background_color')),
