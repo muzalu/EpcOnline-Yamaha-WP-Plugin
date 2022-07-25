@@ -4,11 +4,11 @@ namespace Epconline\YamahaOemPartsLookup;
 
 /**
 Plugin Name: Yamaha OEM Parts Lookup
-Plugin URI: http://epconline.com.au/Yamaha_OEM_Parts_Lookup
+Plugin URI: https://epconline.com.au/wp-plugins/Yamaha_OEM_Parts_Lookup
 Description: Display Yamaha OEM Parts Lookup
-Version: 1.61
+Version: 1.70
 Author: Russell Wyatt
-Author URI: http://epconline.com.au
+Author URI: https://epconline.com.au/
 
  */
 
