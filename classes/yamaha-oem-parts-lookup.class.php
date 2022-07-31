@@ -202,7 +202,7 @@ class YamahaOemPartsLookup
 
                 add_post_meta($product_ID, '_stock_status', 'instock' );
 
-                $term = get_term_by('name', 'Parts', 'product_cat');
+                $term = get_term_by('id', get_option('yamaha_wc_category'), 'product_cat');
                 wp_set_object_terms($product_ID, $term->term_id, 'product_cat');
                 wp_set_object_terms($product_ID, array('Parts Shipping'), 'product_shipping_class');
             }
@@ -214,7 +214,7 @@ class YamahaOemPartsLookup
 
             add_post_meta($product_ID, '_stock_status', 'instock' );
 
-            $term = get_term_by('name', 'Parts', 'product_cat');
+            $term = get_term_by('id', get_option('yamaha_wc_category'), 'product_cat');
             wp_set_object_terms($product_ID, $term->term_id, 'product_cat');
             wp_set_object_terms($product_ID, array('Parts Shipping'), 'product_shipping_class');
 

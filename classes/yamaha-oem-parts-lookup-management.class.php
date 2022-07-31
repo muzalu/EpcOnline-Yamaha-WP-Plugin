@@ -48,7 +48,7 @@ class YamahaOemPartsLookupManagement
         echo "\t\t</div>\n";
     }
 
-    function getProductCategories()
+    function getProductCategories( $selectedCategory)
     {
         $taxonomy     = 'product_cat';
         $orderby      = 'name';
@@ -71,7 +71,8 @@ class YamahaOemPartsLookupManagement
         foreach ($all_categories as $cat) {
             if($cat->category_parent == 0) {
                 $category_id = $cat->term_id;
-                echo '<option value="'. $category_id.'">'. $cat->name .'</option>';
+                $selected = ($category_id == $selectedCategory) ? "selected" : "";
+                echo '<option value="'. $category_id.'"'.  $selected.'>'. $cat->name .'</option>';
 
                 $args2 = array(
                     'taxonomy'     => $taxonomy,
@@ -102,6 +103,7 @@ class YamahaOemPartsLookupManagement
             update_option('yamaha_wc_category', $_POST['yamaha_wc_category']);
             update_option('yamaha_margin_ma', $_POST['yamaha_margin_ma']);
             update_option('yamaha_margin_mb', $_POST['yamaha_margin_mb']);
+            update_option('yamaha_include_gst', $_POST['yamaha_include_gst']);
             update_option('text_color', $_POST['text_color']);
             update_option('text_color_highlight', $_POST['text_color_highlight']);
             update_option('background_color', $_POST['background_color']);
@@ -129,11 +131,15 @@ class YamahaOemPartsLookupManagement
                         <td>
                             <select name="yamaha_wc_category">
                                 <option value="-1">Please select...</option>
-                            <?php $this->getProductCategories(); ?>
+                            <?php $this->getProductCategories(get_option('yamaha_wc_category')); ?>
                             </select>
-<!--                            <input type="number" name="yamaha_wc_category" value="--><?php //echo get_option('yamaha_wc_category'); ?><!--" />-->
                         </td>
                     </tr>
+                    <tr valign="top">
+                        <th scope="row">Add To Cart - Update Elements (comma separated)</th>
+                        <td><input type="text" name="yamaha_update_add_to_cart_elements" value="<?php echo get_option('yamaha_update_add_to_cart_elements'); ?>" /></td>
+                    </tr>
+
                     <tr valign="top">
                         <th scope="row">Margin for Motorcycle Parts</th>
                         <td>
@@ -144,6 +150,12 @@ class YamahaOemPartsLookupManagement
                         <th scope="row">Margin for Marine</th>
                         <td>
                             <input type="number" name="yamaha_margin_ma" value="<?php echo get_option('yamaha_margin_ma'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Include GST @ 10%</th>
+                        <td>
+                                <input type="checkbox" name="yamaha_include_gst" value="1" <?php if (get_option('yamaha_include_gst')) echo "checked=\"checked\"" ?> />
                         </td>
                     </tr>
                     <tr valign="top">
@@ -173,7 +185,7 @@ class YamahaOemPartsLookupManagement
                 </table>
 
                 <input type="hidden" name="action" value="update" />
-                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma" />
+                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma,yamaha_include_gst" />
                 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
             </form>
         </div>

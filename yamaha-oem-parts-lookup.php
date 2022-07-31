@@ -83,12 +83,13 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
             $accessKey = getAccessKey();
 
             wp_register_script( 'yamaha-oem-parts-lookup', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/yamaha-oem-parts-lookup.js', array('jquery') );
-            wp_localize_script( 'yamaha-oem-parts-lookup', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            wp_localize_script( 'yamaha-oem-parts-lookup', 'ypicAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
                 'homeurl' => home_url(),
                 'accesskey' => esc_attr($accessKey),
                 'ypicproducttypes' => esc_attr(get_option('yamaha_products')),
                 'ypicsetting_ma' => esc_attr(get_option('yamaha_margin_ma')),
                 'ypicsetting_mb' => esc_attr(get_option('yamaha_margin_mb')),
+                'ypicsetting_gst' => esc_attr(get_option('yamaha_include_gst')),
                 'text_color' => esc_attr(get_option('text_color')),
                 'text_color_highlight' => esc_attr(get_option('text_color_highlight')),
                 'background_color' => esc_attr(get_option('background_color')),

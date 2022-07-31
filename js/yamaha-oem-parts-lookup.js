@@ -54,7 +54,7 @@ var _background_color = '#d2160c';
 var _background_color_highlight = 'D28474';
 
 jQuery(document).ready(function () {
-    _yourdomain = myAjax.homeurl;
+    _yourdomain = ypicAjax.homeurl;
     init();
     init_mouse();
 });
@@ -89,22 +89,23 @@ function init() {
 
     //jQuery('#PartsListContainer').hide();
 
-    DealerID = myAjax.accesskey;
-    // var ConfiguredProductTypes =  myAjax.producttypes;
+    DealerID = ypicAjax.accesskey;
+    // var ConfiguredProductTypes =  ypicAjax.producttypes;
     //
-    // var setting_ma = myAjax.epcsetting_ma;
-    // var setting_mb = myAjax.epcsetting_mb;
+    // var setting_ma = ypicAjax.epcsetting_ma;
+    // var setting_mb = ypicAjax.epcsetting_mb;
 
-    var ConfiguredProductTypes =  myAjax.ypicproducttypes;
+    var ConfiguredProductTypes =  ypicAjax.ypicproducttypes;
 
-    var setting_ma = myAjax.ypicsetting_ma;
-    var setting_mb = myAjax.ypicsetting_mb;
+    var setting_ma = ypicAjax.ypicsetting_ma;
+    var setting_mb = ypicAjax.ypicsetting_mb;
+    var ypic_include_gst = ypicAjax.ypicsetting_gst;
 
     // text colours
-    _text_color = myAjax.text_color;
-    _text_color_highlight = myAjax.text_color_highlight;
-    _background_color = myAjax.background_color;
-    _background_color_highlight = myAjax.background_color_highlight;
+    _text_color = ypicAjax.text_color;
+    _text_color_highlight = ypicAjax.text_color_highlight;
+    _background_color = ypicAjax.background_color;
+    _background_color_highlight = ypicAjax.background_color_highlight;
 
     ConfiguredProductTypes += '';
     var arrCfg = ConfiguredProductTypes.split(",");
@@ -335,8 +336,12 @@ function init() {
         var detail=jQuery(this).parent().parent().attr('data-descrp');
         var listprice=jQuery(this).parent().parent().attr('data-price');
         var title=partinfo+'-'+detail;
-        var price = parseFloat(listprice).toFixed(2);
-
+        var price = 0;
+        if (ypic_include_gst) {
+            price = parseFloat(listprice*1.1).toFixed(2); // GST added here
+        } else {
+            price = parseFloat(listprice).toFixed(2); // GST not added here
+        }
         //show the loading icon, hide button.
         var button_id = '#btnAdd_'+partid;
         var loading_id = '#loadingAdd_'+partid;
@@ -345,7 +350,7 @@ function init() {
         jQuery(loading_id).show();
 
         javascript: jQuery.ajax({
-            url: myAjax.ajaxurl,
+            url: ypicAjax.ajaxurl,
             data:{
                 action: 'yamaha_oem_ajax_add_to_cart_woo',
                 post_title:title,
