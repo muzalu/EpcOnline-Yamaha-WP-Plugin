@@ -174,13 +174,13 @@ class YamahaOemPartsLookup
 
     function yamaha_oem_ajax_add_to_cart_woo_callback() {
         ob_start();
-        $post=get_page_by_title($_REQUEST[post_title], ARRAY_N, 'product' );
-        $price =  $_REQUEST[price];
+        $post=get_page_by_title($_REQUEST['post_title'], 'ARRAY_N', 'product' );
+        $price =  $_REQUEST['price'];
 
-        if(sizeof($post)==0) {
+        if(!$post) {
             $my_post = array(
-                'post_title'    => $_REQUEST[post_title],
-                'post_content'  => $_REQUEST[post_content],
+                'post_title'    => $_REQUEST['post_title'],
+                'post_content'  => $_REQUEST['post_content'],
                 'post_status'   => 'publish',
                 'post_parent' => '',
                 'post_type'     =>'product'
@@ -191,9 +191,6 @@ class YamahaOemPartsLookup
             if ($wp_error != ''){
                 echo($wp_error);
             }
-
-
-
             if ( $product_ID ){
 //                echo "inserted post";
                 update_post_meta( $product_ID, '_price', $price);
@@ -223,7 +220,7 @@ class YamahaOemPartsLookup
 
         if ( $product_ID ) {
             if (!empty(WC()->cart)) {
-                WC()->cart->add_to_cart($product_ID, $_REQUEST[quantity]);
+                WC()->cart->add_to_cart($product_ID, $_REQUEST['quantity']);
 
                 do_action( 'woocommerce_ajax_added_to_cart', $product_ID );
 

@@ -6,7 +6,7 @@ namespace Epconline\YamahaOemPartsLookup;
 Plugin Name: Yamaha OEM Parts Lookup
 Plugin URI: https://epconline.com.au/wp-plugins/Yamaha_OEM_Parts_Lookup
 Description: Display Yamaha OEM Parts Lookup
-Version: 1.70
+Version: 1.80
 Author: Russell Wyatt
 Author URI: https://epconline.com.au/
 
@@ -73,16 +73,16 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
 //            wp_enqueue_script( 'jquery');
 
             wp_deregister_script( 'cookies' );
-            wp_register_script( 'cookies', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/libs/jquery.cookies.2.2.0.min.js', false, '2.2.0', false);
+            wp_register_script( 'cookies', plugins_url().'/yamaha-oem-parts-lookup/js/libs/jquery.cookies.2.2.0.min.js', false, '2.2.0', false);
             wp_enqueue_script( 'cookies');
 
             wp_deregister_script( 'plugins' );
-            wp_register_script( 'plugins', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/plugins.js', false, null, false);
+            wp_register_script( 'plugins', plugins_url().'/yamaha-oem-parts-lookup/js/plugins.js', false, null, false);
             wp_enqueue_script( 'plugins');
 
             $accessKey = getAccessKey();
 
-            wp_register_script( 'yamaha-oem-parts-lookup', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/js/yamaha-oem-parts-lookup.js', array('jquery') );
+            wp_register_script( 'yamaha-oem-parts-lookup', plugins_url().'/yamaha-oem-parts-lookup/js/yamaha-oem-parts-lookup.js', array('jquery') );
             wp_localize_script( 'yamaha-oem-parts-lookup', 'ypicAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
                 'homeurl' => home_url(),
                 'accesskey' => esc_attr($accessKey),
@@ -90,6 +90,8 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
                 'ypicsetting_ma' => esc_attr(get_option('yamaha_margin_ma')),
                 'ypicsetting_mb' => esc_attr(get_option('yamaha_margin_mb')),
                 'ypicsetting_gst' => esc_attr(get_option('yamaha_include_gst')),
+                'customcontactlink' => esc_attr(get_option('custom_contact_link')),
+                'customcontactnewpage' => esc_attr(get_option('custom_contact_new_page')),
                 'text_color' => esc_attr(get_option('text_color')),
                 'text_color_highlight' => esc_attr(get_option('text_color_highlight')),
                 'background_color' => esc_attr(get_option('background_color')),
@@ -97,7 +99,7 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
             ));
             wp_enqueue_script( 'yamaha-oem-parts-lookup' );
 
-            wp_register_style('yamaha-oem-parts-lookup-style', WP_PLUGIN_URL.'/yamaha-oem-parts-lookup/styles/yamaha.css');
+            wp_register_style('yamaha-oem-parts-lookup-style', plugins_url().'/yamaha-oem-parts-lookup/styles/yamaha.css');
             wp_enqueue_style('yamaha-oem-parts-lookup-style');
         }
 

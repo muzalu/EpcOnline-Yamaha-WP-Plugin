@@ -3,7 +3,7 @@
  * This sample code is supplied as is to give basic functionality
  * of an online parts browser including a hotspotted parts diagram
  * 
- * Copyright (C) 2019 by K & K Computech
+ * Copyright (C) 2011 - 2023 by K & K Computech
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,8 @@ var _yourdomain = '';
 var gCanvas = null; // the canvas
 var gContext = null;    // the context
 var gMrkp = 10;
+var gCustomContactLink = "";
+var gCustomContactNewPage = 1;
 
 var canvasMinX = 0, canvasMinY = 0;
 var _offsetX = 0, _offsetY = 0, _mouseX, _mouseY, _mouseDownX, _mouseDownY, _mouseMoveX, _mouseMoveY;
@@ -100,6 +102,8 @@ function init() {
     var setting_ma = ypicAjax.ypicsetting_ma;
     var setting_mb = ypicAjax.ypicsetting_mb;
     var ypic_include_gst = ypicAjax.ypicsetting_gst;
+    gCustomContactLink = ypicAjax.customcontactlink;
+    gCustomContactNewPage = ypicAjax.customcontactnewpage;
 
     // text colours
     _text_color = ypicAjax.text_color;
@@ -426,11 +430,14 @@ function init() {
 
                     itemPrice = (itemPrice * (1 + gMrkp / 100)).toFixed(2);
 
+                    var contactLink = gCustomContactLink != "" ? gCustomContactLink : "/#contactus/";
+                    var contactNewPage = gCustomContactNewPage == 1 ? "_blank" : "_self";
+
                     if (itemPrice > 0) {
                         clm = '<td class="addToCart"><input type="button" id="btnAdd_' + item.PartID + '" data-partid="' + item.PartID + '" data-partno="' + itemPartID + '" class="productContentfooterLeft btnAddToCart" value="Add to Cart" style="display: none;"/></td>';
                     } else {
                         /*clm ='<td><input type="button" value="Contact store" rel="facebox" class="contactstore" id="btn_' + item.PartID + '_'+item.Description+'" /></td>';*/
-                        clm = '<td><a href="contact_store.php?desc=' + item.Description + '&product_id=' + item.PartID + ' " class="contactstore" >Contact Store</a></td>';
+                        clm = '<td><a target="' + contactNewPage + '" href="' + contactLink + '" class="contactstore" >Contact Store</a></td>';
                     }
 
                     jQuery('<tr id="part_' + item.PartID + '" class="partrow" style="background-color: '+ _background_color+'; color: '+ _text_color +'"></tr>')
@@ -828,6 +835,9 @@ function getPartsForAssembly(productId, assemblyId) {
 
                     itemPrice = (itemPrice * (1 + gMrkp / 100)).toFixed(2);
 
+                    var contactLink = gCustomContactLink != "" ? gCustomContactLink : "/contacts/";
+                    var contactNewPage = gCustomContactNewPage == 1 ? "_blank" : "_self";
+
 					var class_Partnotforsale = item.Discontinued ? "partnotforsale" : "";
                     if(itemPrice > 0){
 						if(!class_Partnotforsale) {
@@ -837,8 +847,8 @@ function getPartsForAssembly(productId, assemblyId) {
                     	}
                     }
                     else{
-                        /*clm ='<td><input type="button" value="Contact store" rel="facebox" class="contactstore" id="btn_' + item.PartID + '_'+item.Description+'" /></td>';*/
-                        clm ='<td align="center"><a style="color:#000000;font-size:14px;" href="/contacts/" class="contactstore" rel="facebox">Contact Store</a></td>';
+                        clm = '<td><a target="' + contactNewPage + '" href="' + contactLink + '" class="contactstore" >Contact Store</a></td>';
+
                     }
 
                  //   itemPrice = 'xxx';

@@ -104,6 +104,8 @@ class YamahaOemPartsLookupManagement
             update_option('yamaha_margin_ma', $_POST['yamaha_margin_ma']);
             update_option('yamaha_margin_mb', $_POST['yamaha_margin_mb']);
             update_option('yamaha_include_gst', $_POST['yamaha_include_gst']);
+            update_option('custom_contact_link', $_POST['custom_contact_link']);
+            update_option('custom_contact_new_page', $_POST['custom_contact_new_page']);
             update_option('text_color', $_POST['text_color']);
             update_option('text_color_highlight', $_POST['text_color_highlight']);
             update_option('background_color', $_POST['background_color']);
@@ -159,6 +161,18 @@ class YamahaOemPartsLookupManagement
                         </td>
                     </tr>
                     <tr valign="top">
+                        <th scope="row">Custom Contact Link</th>
+                        <td>
+                            <input type="text" name="custom_contact_link" value="<?php echo get_option('custom_contact_link'); ?>" />
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Open Contact in New Page</th>
+                        <td>
+                            <input type="checkbox" name="custom_contact_new_page" value="1" <?php if (get_option('custom_contact_new_page')) echo "checked=\"checked\"" ?> />
+                        </td>
+                    </tr>
+                    <tr valign="top">
                         <th scope="row">Text Colour</th>
                         <td>
                             <input type="text" name="text_color" value="<?php echo get_option('text_color'); ?>" />
@@ -185,7 +199,7 @@ class YamahaOemPartsLookupManagement
                 </table>
 
                 <input type="hidden" name="action" value="update" />
-                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma,yamaha_include_gst" />
+                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma,yamaha_include_gst,custom_contact_link,custom_contact_new_page" />
                 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
             </form>
         </div>
