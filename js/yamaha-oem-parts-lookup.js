@@ -430,7 +430,7 @@ function init() {
 
                     itemPrice = (itemPrice * (1 + gMrkp / 100)).toFixed(2);
 
-                    var contactLink = gCustomContactLink != "" ? gCustomContactLink : "contact_store.php?desc=' + item.Description + '&product_id=' + item.PartID;
+                    var contactLink = gCustomContactLink != "" ? gCustomContactLink : "/#contactus/";
                     var contactNewPage = gCustomContactNewPage == 1 ? "_blank" : "_self";
 
                     if (itemPrice > 0) {
