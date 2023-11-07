@@ -140,13 +140,7 @@ class YamahaOemPartsLookup
         </div>
         <div id="yamaha-oem-AssemblyContainer">
             <div id="Diagram">
-                <div id="DiagramControls">
-                    <input id="zoomIn" type="button" value="+" />
-                    <input id="zoomOut" type="button" value="-" />
-                </div>
-                <canvas id="imageCanvas" width="920" height="500">
-            Your browser does not support the canvas element. Please get a new browser
-                </canvas>
+                <div id="newCanvas" style="width:100%;height:auto;overflow:hidden;"></div>
             </div>
             <div id="PartsListContainer">
                 <table id="PartsList">

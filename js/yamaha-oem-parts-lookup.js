@@ -58,7 +58,7 @@ var _background_color_highlight = 'D28474';
 jQuery(document).ready(function () {
     _yourdomain = ypicAjax.homeurl;
     init();
-    init_mouse();
+    //init_mouse();
 });
 
 jQuery(document).ajaxStart(function() {
@@ -478,14 +478,14 @@ function init() {
     }
 }
 
-function init_mouse() {
-    if (jQuery('#imageCanvas').offset() != null) {
-        canvasMinX = jQuery('#imageCanvas').offset().left;
-        canvasMinY = jQuery('#imageCanvas').offset().top;
-    }
-    _centreX = _canvasWidth / 2;
-    _centreY = _canvasHeight / 2;
-}
+// function init_mouse() {
+//     if (jQuery('#imageCanvas').offset() != null) {
+//         canvasMinX = jQuery('#imageCanvas').offset().left;
+//         canvasMinY = jQuery('#imageCanvas').offset().top;
+//     }
+//     _centreX = _canvasWidth / 2;
+//     _centreY = _canvasHeight / 2;
+// }
 
 function mousePosX(event) {
     // Get the mouse position relative to the canvas element.
@@ -509,42 +509,42 @@ function mousePosY(event) {
     return y;
 };
 
-function paint() {
-    var newWidth = _canvasWidth * (1 / _scalefactor);
-    var newHeight = _canvasHeight * (1 / _scalefactor);
-    if (document.getElementById('imageCanvas') != null)
-        gCanvas = document.getElementById('imageCanvas');
-    gContext = gCanvas.getContext('2d');
-    gContext.save();
+// function paint() {
+//     var newWidth = _canvasWidth * (1 / _scalefactor);
+//     var newHeight = _canvasHeight * (1 / _scalefactor);
+//     if (document.getElementById('newCanvas') != null)
+//         gCanvas = document.getElementById('newCanvas');
+//     gContext = gCanvas.getContext('2d');
+//     gContext.save();
+//
+//     //gContext.translate(-((newWidth - _canvasWidth) / 2), -((newHeight - _canvasHeight) / 2));
+//     //gContext.scale(1 / _scalefactor, 1 / _scalefactor);
+//     if (_scalefactor <= 0) {
+//         _scalefactor = 0.5;
+//         gContext.scale(1 / _scalefactor, 1 / _scalefactor);
+//     }
+//     else {
+//         gContext.scale(1 / _scalefactor, 1 / _scalefactor);
+//     }
+//     gContext.fillStyle = gContext.strokeStyle = "#fff";
+//     //
+//     // Clear
+//     //
+//     gContext.clearRect(0, 0, _canvasWidth * _scalefactor, _canvasHeight * _scalefactor);
+//     gContext.drawImage(gImage, _offsetX, _offsetY);
+//     gContext.restore();
+// }
 
-    //gContext.translate(-((newWidth - _canvasWidth) / 2), -((newHeight - _canvasHeight) / 2));
-    //gContext.scale(1 / _scalefactor, 1 / _scalefactor);
-    if (_scalefactor <= 0) {
-        _scalefactor = 0.5;
-        gContext.scale(1 / _scalefactor, 1 / _scalefactor);
-    }
-    else {
-        gContext.scale(1 / _scalefactor, 1 / _scalefactor);
-    }
-    gContext.fillStyle = gContext.strokeStyle = "#fff";
-    //
-    // Clear
-    //
-    gContext.clearRect(0, 0, _canvasWidth * _scalefactor, _canvasHeight * _scalefactor);
-    gContext.drawImage(gImage, _offsetX, _offsetY);
-    gContext.restore();
-}
-
-function focusHotspot(Xpos, Ypos) {
-    // calculate offsets required to position hotspot in centre of canvas
-    var newOffsetX = Xpos - (_centreX * _scalefactor);// * (1 / _scalefactor);
-    var newOffsetY = Ypos - (_centreY * _scalefactor); // * (1 / _scalefactor);
-    _offsetX = -newOffsetX;
-    _offsetY = -newOffsetY;
-    //alert("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
-    jQuery('#status').html("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
-    paint();
-}
+// function focusHotspot(Xpos, Ypos) {
+//     // calculate offsets required to position hotspot in centre of canvas
+//     var newOffsetX = Xpos - (_centreX * _scalefactor);// * (1 / _scalefactor);
+//     var newOffsetY = Ypos - (_centreY * _scalefactor); // * (1 / _scalefactor);
+//     _offsetX = -newOffsetX;
+//     _offsetY = -newOffsetY;
+//     //alert("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
+//     jQuery('#status').html("_offsetX : " + newOffsetX + "_offsetY : " + newOffsetY);
+//     paint();
+// }
 
 function showInfoPopup(partdata) {
     // get hotspot position relative to page
@@ -574,17 +574,17 @@ function unhighlightPartRow() {
     jQuery('.partrow td').removeClass('hilight');
 }
 
-function zoomIn() {
-    _scalefactor -= 0.5;
-    jQuery('#status').html('Scale factor : ' + _scalefactor);
-    paint();
-}
-
-function zoomOut() {
-    _scalefactor += 0.5;
-    jQuery('#status').html('Scale factor : ' + _scalefactor);
-    paint();
-}
+// function zoomIn() {
+//     _scalefactor -= 0.5;
+//     jQuery('#status').html('Scale factor : ' + _scalefactor);
+//     paint();
+// }
+//
+// function zoomOut() {
+//     _scalefactor += 0.5;
+//     jQuery('#status').html('Scale factor : ' + _scalefactor);
+//     paint();
+// }
 
 function setTypeSelector(selType) {
     jQuery('select#yamaha-oem-filterpanel #TypeSelect')
@@ -810,6 +810,7 @@ function getPartsForAssembly(productId, assemblyId) {
         jQuery.getJSON(
             'https://' + _domain + '/Part/Assembly/' + productId + '/' + assemblyId + '/' + DealerID + '?callback=?',
             function (data) {
+                $('#PartsList.bt').basictable('destroy');
                 jQuery('#PartsList tbody tr').remove();
                 // clear hotspot array
                 _hotspots.length = 0;
@@ -918,22 +919,27 @@ function getAssemblyImage(assemblyId) {
         jQuery.getJSON(
             'https://' + _domain + '/Assembly/Image/' + assemblyId + '/' + DealerID + '?callback=?',
             function (data) {
-                jQuery('#status').html('Image Received');
-                if (document.getElementById('imageCanvas')) {
-                    gCanvas = document.getElementById('imageCanvas');
-                    gCanvas.width = gCanvas.width;
-                }
+            jQuery('#status').html('Image Received');
+            jQuery('#newCanvas').html('<img id="imgScaler" style="transform: scale(1.0, 1.0);" src="https://' + _domain + '/Image/getImage/' + data.Key + '/type/' + data.Value + '" />');
 
-                _offsetX, _offsetY = 0;
-                gImage.onload = function () {
-                    jQuery('#status').html('Image Loaded');
-                    // calculate zoom factor to fit image inside the canvas
-                    _scalefactor = gImage.width / gCanvas.width;
-                    _scalefactor *= 2;
-                    paint();
-                }
+            jQuery("#imgScaler").imgViewer2({
+                // zoom step
+                zoomStep: 0.5,
 
-                gImage.src = 'https://' + _domain + '/Image/getImage/' + data.Key + '/type/' + data.Value;
+                // the limit on the maximum zoom level of the image
+                zoomMax: undefined,
+
+                // is zoomable
+                zoomable: true,
+
+                // is draggable
+                dragable: true,
+
+                // callbacks
+                onClick: jQuery.noop,
+                onReady: jQuery.noop
             });
+
+        });
     }
 }
