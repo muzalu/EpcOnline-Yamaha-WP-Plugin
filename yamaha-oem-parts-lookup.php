@@ -6,7 +6,7 @@ namespace Epconline\YamahaOemPartsLookup;
 Plugin Name: Yamaha OEM Parts Lookup
 Plugin URI: https://epconline.com.au/wp-plugins/Yamaha_OEM_Parts_Lookup
 Description: Display Yamaha OEM Parts Lookup
-Version: 1.80
+Version: 1.90
 Author: Russell Wyatt
 Author URI: https://epconline.com.au/
 
@@ -96,6 +96,7 @@ if( class_exists(NS.'YamahaOemPartsLookup') && class_exists(NS.'YamahaOemPartsLo
                 'text_color_highlight' => esc_attr(get_option('text_color_highlight')),
                 'background_color' => esc_attr(get_option('background_color')),
                 'background_color_highlight' => esc_attr(get_option('background_color_highlight')),
+                'show_marine_years' => esc_attr(get_option('show_marine_years'))
             ));
             wp_enqueue_script( 'yamaha-oem-parts-lookup' );
 

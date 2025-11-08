@@ -54,6 +54,7 @@ var _text_color = '#121212';
 var _text_color_highlight = '#dadada';
 var _background_color = '#d2160c';
 var _background_color_highlight = 'D28474';
+var _show_marine_years = 0;
 
 jQuery(document).ready(function () {
     _yourdomain = ypicAjax.homeurl;
@@ -110,6 +111,7 @@ function init() {
     _text_color_highlight = ypicAjax.text_color_highlight;
     _background_color = ypicAjax.background_color;
     _background_color_highlight = ypicAjax.background_color_highlight;
+    _show_marine_years = ypicAjax.show_marine_years;
 
     ConfiguredProductTypes += '';
     var arrCfg = ConfiguredProductTypes.split(",");
@@ -156,7 +158,7 @@ function init() {
                 gMrkp = 10;
         }
 
-        if (selectedType == 'MA') {
+        if (!_show_marine_years && (selectedType == 'MA')) {
             jQuery('#yamaha-oem-filterpanel #YearSelection').hide();
             getModels(selectedType);
         } else {
@@ -187,12 +189,11 @@ function init() {
         }
 
         //document.getElementById('wrapper').style.display='block';
-        if (selectedType != "MA") {
-            jQuery('#yamaha-oem-filterpanel #YearSelection').show();
-            getYears(selectedType);
-        } else {
+        if (!_show_marine_years && (selectedType == 'MA')) {
             jQuery('#yamaha-oem-filterpanel #YearSelection').hide();
             getModels(selectedType);
+        } else {
+            getYears(selectedType);
         }
     });
     var leftButtonDown = false;

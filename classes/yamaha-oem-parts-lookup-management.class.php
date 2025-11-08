@@ -110,6 +110,8 @@ class YamahaOemPartsLookupManagement
             update_option('text_color_highlight', $_POST['text_color_highlight']);
             update_option('background_color', $_POST['background_color']);
             update_option('background_color_highlight', $_POST['background_color_highlight']);
+            update_option('show_marine_years', $_POST['show_marine_years']);
+
             ?><div class="updated"><p><strong><?php _e('Options saved.', 'eg_trans_domain' ); ?></strong></p></div><?php
         }
         ?>
@@ -196,10 +198,16 @@ class YamahaOemPartsLookupManagement
                             <input type="text" name="background_color_highlight" value="<?php echo get_option('background_color_highlight'); ?>" />
                         </td>
                     </tr>
+                    <tr valign="top">
+                        <th scope="row">Show Marine Years</th>
+                        <td>
+                            <input type="checkbox" name="show_marine_years" value="1" <?php if (get_option('show_marine_years')) echo "checked=\"checked\"" ?>" />
+                        </td>
+                    </tr>
                 </table>
 
                 <input type="hidden" name="action" value="update" />
-                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma,yamaha_include_gst,custom_contact_link,custom_contact_new_page" />
+                <input type="hidden" name="page_options" value="yamaha_dealer_id,yamaha_products,yamaha_wc_category,yamaha_margin_mb,yamaha_margin_ma,yamaha_include_gst,custom_contact_link,custom_contact_new_page,text_color,text_color_highlight,background_color,background_color_highlight,show_marine_years" />
                 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
             </form>
         </div>
